@@ -16,6 +16,7 @@ void audio_cleanup(void) {
 }
 
 void audio_beep(int freq, int duration_ms) {
+    (void)freq; (void)duration_ms;
     if (!audio_enabled) return;
     beep();
     flash();

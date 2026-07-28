@@ -4,7 +4,6 @@
 #include "boom.h"
 #include <ncurses.h>
 
-static float wall_hit_dist;
 static int wall_hit_type;
 
 int make_color(int r, int g, int b) {

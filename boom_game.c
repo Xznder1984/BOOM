@@ -109,7 +109,6 @@ void weapon_fire(GameState *gs) {
     int hitscan = 1;
     float proj_speed = 0;
     float proj_x = 0, proj_y = 0, proj_dx = 0, proj_dy = 0;
-    int is_bfg = 0;
 
     switch (wpn) {
         case WPN_FIST:
@@ -128,7 +127,6 @@ void weapon_fire(GameState *gs) {
             ammo_cost = 40; hitscan = 0; proj_speed = 200.0f;
             damage = 10 + p->bfg_charge * 3;
             if (damage > 400) damage = 400;
-            is_bfg = 1;
             break;
     }
 
