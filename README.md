@@ -1,162 +1,179 @@
 # BOOM - Terminal DOOM Clone
 
-**The modern classic DOOM (1993) experience, playable in any terminal.**
+![Version](https://img.shields.io/badge/version-1.0.0-red)
+![License](https://img.shields.io/badge/license-GPL--2.0-blue)
+![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-green)
 
-BOOM is a faithful terminal-based recreation of id Software's legendary DOOM (1993), featuring a real raycasting 3D engine, WAD file support, enemies, weapons, items, and the iconic gameplay -- all rendered in your terminal using Unicode block characters and ANSI colors.
-
-```
-██████╗  ██████╗ ███████╗
-██╔══██╗██╔═══██╗██╔════╝
-██████╔╝██║   ██║███████╗
-██╔══██╗██║   ██║╚════██║
-██████╔╝╚██████╔╝███████║
-╚═════╝  ╚═════╝ ╚══════╝
-```
-
-## Quick Install (One Command)
-
-### Linux
-```bash
-curl -sSL https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.sh | bash
-```
-
-### macOS
-```bash
-curl -sSL https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.sh | bash
-```
-
-### Windows (PowerShell)
-```powershell
-irm https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.ps1 | iex
-```
-
-### Windows (Batch - Download & Run)
-```cmd
-curl -sSL -o boom_install.bat https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.bat && boom_install.bat
-```
-
-### Universal (Auto-detects OS)
-```bash
-curl -sSL https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.sh | bash
-```
+A standalone terminal-based DOOM (1993) clone built from scratch with raycasting 3D engine, built-in levels (no external WAD dependency), and one-command installer.
 
 ## Features
 
-- **Real Raycasting Engine** - DDA algorithm, texture-mapped walls, floor/ceiling, sprites
-- **WAD File Support** - Play original DOOM levels from `.wad` files
-- **Built-in Maps** - 3 built-in E1M1-style maps (no WAD needed)
-- **7 Weapons** - Fist, Pistol, Shotgun, Chaingun, Rocket Launcher, Plasma Rifle, BFG 9000
-- **Enemy AI** - Zombiemen, Shotgun Guys, Imps, Demons, Cacodemons, Barons of Hell
-- **Item Pickups** - Health, Armor, Ammo, Keys, Weapons
-- **DOOM HUD** - Health bar, armor, ammo, keys, face indicator
-- **Minimap** - Toggle with Tab
-- **Terminal Audio** - Sound effects via terminal beeps
-- **Optional Music** - MP3/FLAC music support (see Audio Setup)
-- **Cross-Platform** - Works on Linux, macOS, Windows, WSL, any terminal
+- **Raycasting 3D Engine** - Smooth first-person perspective rendering in terminal
+- **Built-in Levels** - 3 complete levels with enemies, weapons, keys, and secrets (no WAD files needed!)
+- **Full Weapon Arsenal** - Fist, Pistol, Shotgun, Chaingun, Rocket Launcher, Plasma Rifle, BFG9000
+- **Enemy AI** - Zombies, Imps, Demons, Cacodemons, Barons with pathfinding and combat
+- **Terminal Audio** - Beep sounds for weapons, items, doors
+- **Automap** - Tab key reveals overhead map
+- **Cross-Platform** - Linux, macOS, Windows, WSL
 
-## Manual Install
+## Quick Install
 
+### One-Command Install (curl)
+
+**Linux:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.sh | bash
+```
+
+**macOS:**
+```bash
+curl -fsSL https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.sh | bash
+```
+
+**Windows (PowerShell):**
+```powershell
+iex (iwr -Uri "https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.ps1").Content
+```
+
+**Windows (Batch):**
+```cmd
+curl -fsSL https://raw.githubusercontent.com/Xznder1984/BOOM/main/boom_install.bat -o boom_install.bat && boom_install.bat
+```
+
+### Manual Install
+
+**Linux/macOS:**
 ```bash
 git clone https://github.com/Xznder1984/BOOM.git
 cd BOOM
-pip install -r requirements.txt
-python boom.py
+make
+sudo make install
+```
+
+**Windows:**
+```cmd
+git clone https://github.com/Xznder1984/BOOM.git
+cd BOOM
+gcc -o boom.exe boom_main.c boom_render.c boom_game.c boom_wad.c boom_audio.c -lncursesw -lm
 ```
 
 ## Usage
 
 ```bash
-# Play built-in E1M1 map
-python boom.py
-
-# Play with a DOOM WAD file
-python boom.py --wad /path/to/doom1.wad
-
-# Play a specific map
-python boom.py --wad doom1.wad --map E1M3
-
-# List available maps in a WAD
-python boom.py --wad doom1.wad --list-maps
-
-# Disable audio
-python boom.py --noaudio
-
-# Set FPS target
-python boom.py --fps 60
+boom                          # Start at level 1
+boom -l 0                     # Start at level 0 (Hangar)
+boom -l 1                     # Start at level 1 (Nuclear Plant)
+boom -l 2                     # Start at level 2 (Toxic Refinery)
+boom -f 30                    # Set target FPS to 30
+boom -w 120 -t 40             # Set screen dimensions
 ```
 
 ## Controls
 
 | Key | Action |
 |-----|--------|
-| `W` / `S` | Move forward / backward |
-| `A` / `D` | Strafe left / right |
-| `Left` / `Right` | Turn |
-| `F` | Fire weapon |
-| `Space` / `Enter` | Use door / switch |
-| `1` | Fist |
-| `2` | Pistol |
-| `3` | Shotgun |
-| `4` | Chaingun |
-| `5` | Rocket Launcher |
-| `6` | Plasma Rifle |
-| `7` | BFG 9000 |
-| `Tab` | Toggle minimap |
+| `W` `A` `S` `D` | Move / Strafe |
+| `<-` `->` | Turn left/right |
+| `F` / `Space` | Fire weapon |
+| `E` | Use/Open door |
+| `1` - `7` | Select weapon |
+| `Tab` | Toggle automap |
 | `+` / `-` | Adjust FPS |
+| `Esc` | Pause / Quit |
 | `Q` | Quit |
 
-## WAD Files
+## Weapons
 
-BOOM supports standard DOOM WAD files. Place your `.wad` files anywhere and point to them:
+| # | Weapon | Damage | Fire Rate | Ammo |
+|---|--------|--------|-----------|------|
+| 1 | Fist | 20 | Slow | None |
+| 2 | Pistol | 15 | Medium | Clips |
+| 3 | Shotgun | 7*3 pellets | Slow | Shells |
+| 4 | Chaingun | 10 | Fast | Clips |
+| 5 | Rocket Launcher | 100 | Slow | Rockets |
+| 6 | Plasma Rifle | 25 | Fast | Cells |
+| 7 | BFG9000 | 10-400 | Very Slow | Cells |
+
+## Enemies
+
+| Type | Health | Speed | Attack | Color |
+|------|--------|-------|--------|-------|
+| Zombie | 20 | Slow | Hitscan | Green |
+| Imp | 60 | Medium | Fireball | Orange |
+| Demon | 150 | Fast | Melee | Red |
+| Cacodemon | 400 | Slow | Fireball | Red |
+| Baron | 1000 | Slow | Fireball | Dark Red |
+
+## Levels
+
+1. **Hangar** - Introduction level, learn controls
+2. **Nuclear Plant** - Medium difficulty, keys and doors
+3. **Toxic Refinery** - Hard, more enemies, secrets
+
+## Optional Music Setup
+
+The game includes terminal beep sounds. For full MIDI music (Bobby Prince OST), run:
 
 ```bash
-python boom.py --wad doom1.wad
-python boom.py --wad doom2.wad --map MAP01
+./boom_audio_setup.sh
 ```
 
-The shareware DOOM1.WAD is freely available from various sources.
+This will download the DOOM soundtrack from Archive.org for use with an external MIDI player.
 
-## Music (Optional)
+## Building from Source
 
-BOOM uses terminal beeps for sound effects by default. To add the iconic DOOM soundtrack:
+### Dependencies
+
+- **C Compiler**: GCC or Clang
+- **ncurses**: Terminal UI library
+- **Math library**: `-lm`
+
+**Linux (Debian/Ubuntu):**
+```bash
+sudo apt install gcc libncurses-dev
+```
+
+**Linux (Fedora/RHEL):**
+```bash
+sudo dnf install gcc ncurses-devel
+```
+
+**macOS:**
+```bash
+xcode-select --install
+```
+
+**Windows:**
+- Install MinGW or MSYS2 with gcc and ncurses
+
+### Build
 
 ```bash
-# Auto-download from Internet Archive
-bash boom_audio_setup.sh
-
-# Or manually place MP3/FLAC files in the music/ directory
+make
 ```
 
-Place files in `music/` named like:
-- `02. At Doom's Gate.mp3`
-- `04. Dark Halls.flac`
+## Python Version
 
-## Audio Setup Script
+A Python version is available in the `Python/` folder:
 
 ```bash
-bash boom_audio_setup.sh
+cd Python
+pip install -r requirements.txt
+python boom.py
 ```
 
-This downloads the DOOM OST from Internet Archive (MP3 format) into the `music/` directory.
-
-## Requirements
-
-- Python 3.6+
-- `windows-curses` on Windows (auto-installed)
-- A terminal with color support (any modern terminal)
+Requires Python 3.7+ and `windows-curses` on Windows.
 
 ## License
 
-GPL-2.0 - See [LICENSE](LICENSE)
-
-DOOM is a registered trademark of id Software LLC. This project is not affiliated with id Software LLC.
+This project is licensed under the GNU General Public License v2.0 - see the [LICENSE](LICENSE) file for details.
 
 ## Credits
 
-- **id Software** - Original DOOM (1993)
-- **Bobby Prince** - Original DOOM soundtrack
-- **BOOM Contributors** - Terminal port
+- Inspired by id Software's DOOM (1993)
+- Raycasting engine based on classic techniques
+- Built from scratch in C and Python
 
----
+## Star History
 
-*"RIP AND TEAR... in your terminal!"*
+If you find BOOM useful, please give it a star on GitHub!
