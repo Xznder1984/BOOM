@@ -1,6 +1,7 @@
-# BOOM Makefile - Cross-platform build
-# Usage: make          (build for current platform)
-#        make clean    (remove build artifacts)
+# BOOM Makefile - Terminal DOOM Clone
+# Usage: make build   (compile)
+#        make run     (compile + run)
+#        make clean   (remove build artifacts)
 
 CC ?= gcc
 CFLAGS ?= -O2 -Wall -Wextra -pedantic -std=c99
@@ -45,18 +46,25 @@ ifeq ($(OS),Windows_NT)
     TARGET = boom.exe
 endif
 
-.PHONY: all clean install help check-deps
+.PHONY: all build clean run install check-deps help
 
-all: $(TARGET)
+all: build
+
+build: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CC) $(OBJS) -o $@ $(LDFLAGS)
+	@echo "Build complete: $(TARGET)"
 
 %.o: %.c boom.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS) boom boom.exe
+	@echo "Cleaned."
+
+run: build
+	./$(TARGET)
 
 install: $(TARGET)
 	@echo "Installing $(TARGET) to /usr/local/bin..."
@@ -81,13 +89,9 @@ help:
 	@echo "BOOM - Terminal DOOM Clone"
 	@echo ""
 	@echo "Targets:"
-	@echo "  all         Build BOOM (default)"
-	@echo "  clean       Remove build artifacts"
-	@echo "  install     Install to /usr/local/bin"
-	@echo "  check-deps  Verify build dependencies"
-	@echo "  help        Show this help"
-	@echo ""
-	@echo "Usage:"
-	@echo "  make                # Build for current platform"
-	@echo "  make install        # Install system-wide"
-	@echo "  make clean          # Clean build files"
+	@echo "  make build    Build BOOM"
+	@echo "  make run      Build and run"
+	@echo "  make clean    Remove build artifacts"
+	@echo "  make install  Install to /usr/local/bin"
+	@echo "  make check-deps  Verify build dependencies"
+	@echo "  make help     Show this help"
